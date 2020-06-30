@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yorozuyas.demo.dao.Protobuf2RedisMapper">
+
+	<!-- result-map -->
+	<resultMap type="com.yorozuyas.demo.model.DeliverAddress" id="DeliverAddressResultMap">
+
+		<id property="id" column="id" />
+		<result property="uid" column="uid" />
+		<result property="name" column="name" />
+		<result property="address" column="address" />
+		<result property="mobile" column="mobile" />
+	</resultMap>
+
+	<insert id="newAddress" parameterType="com.yorozuyas.demo.model.DeliverAddress">
+		INSERT INTO
+			tb_deliver_address(uid, name, address, mobile)
+		VALUES (
+			#{uid},
+			#{name},
+			#{address},
+			#{mobile}
+		)
+	</insert>
+
+	<select id="fetchAddress" parameterType="java.lang.String" resultMap="DeliverAddressResultMap">
+		SELECT id, uid, name, address, mobile 
+			FROM tb_deliver_address
+		WHERE uid = #{uid}
+	</select>
+	
+	<update id="modifyAddress" parameterType="com.yorozuyas.demo.model.DeliverAddress">
+		UPDATE tb_deliver_address
+			SET name = #{name}, address = #{address}, mobile = #{mobile}
+		WHERE id = #{id} AND uid = #{uid}
+	</update>
+	
+	<delete id="evictAddress" parameterType="java.util.Map">
+		DELETE FROM tb_deliver_address WHERE id = #{id} AND uid = #{uid}
+	</delete>
+
+</mapper>
