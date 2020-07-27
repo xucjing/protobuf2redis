@@ -1,0 +1,49 @@
+spring.main.allow-bean-definition-overriding: true
+spring.jmx.default-domain: protobuf2redis
+spring.application.name: protobuf2redis
+server:
+  servlet.context-path: /protobuf2redis
+  tomcat:
+    uri-encoding: UTF-8
+
+############################################################################
+# 日志
+############################################################################
+logging:
+  path: ${LOGGING_PATH:/home/yorozuyas/protobuf2redis}
+
+############################################################################
+# 数据库配置
+############################################################################
+spring.datasource:
+  driver-class-name: com.mysql.cj.jdbc.Driver
+  url: jdbc:mysql://${DB_SERVER:www.yorozuyas.com}:${DB_PORT:3306}/${DB_NAME:protobuf2redisdb}?ApplicationName=protobuf2redis&characterEncoding=utf8
+  username: ${MYSQL_USERNAME:username}
+  password: ${MYSQL_PASSWORD:password}
+  hikari:
+    connection-test-query: SELECT 1
+    maximum-pool-size: 3
+    minimum-idle: 1
+    max-lifetime: 900000
+    validation-timeout: 5000
+    connection-timeout: 30000
+    idle-timeout: 600000
+    leakDetectionThreshold: 3000
+mybatis:
+  configuration.lazyLoadingEnabled: true
+  mapper-locations: classpath:mybatis/*.xml
+  
+############################################################################
+# Redis配置 
+############################################################################
+spring:
+  cache:
+    type: redis
+    redis:
+      time-to-live: ${REDIS_CACHE_TTL:1800000}
+  redis:
+    host: ${REDIS_CACHE_HOST:www.yorozuyas.com}
+    port: ${REDIS_CACHE_PORT:6379}
+    password: ${REDIS_CACHE_PASSWORD:password}
+        
+        
